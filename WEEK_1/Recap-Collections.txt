@@ -1,0 +1,88 @@
+Recap: Collections (12:54)
+
+dessin 2
+
+All collection types share a common set of general methods
+    map
+    flatmap
+    filter
+    
+    foldLeft
+    foldRight
+    
+# idealized implementation
+
+    abstract class List[+T] {
+        def map[U](f: T => U): List[U] = this match {
+            case x :: xs => f(x) :: xs.map(f)
+            case Nil => Nil
+        }
+        
+        def flatMap(f: T => List[U]): List[U] = this match {
+            case x :: xs => f(x) ++ xs.flatMap(f)
+            case Nil => Nil
+        }
+        
+        def filter(p: T => Boolean): List[U] = this match {
+            case x :: xs =>
+                if(p(x)) x :: xs.filter(p) else xs.filter(p)
+            case Nil => Nil
+        }
+    }
+    
+# For-Expressions    
+
+for(x <- e1) yield e2    => e1.map(x => e2)
+
+for(x <- e1 if f; s) yield e2    => for(x <-e1.withFilter(x => f); s) yield e2
+
+for(x -> e1; y <-e2; s) yield e3    => e1.flatMap(x => for(y <- e2; s) yield e3)
+    
+   with s is a (potentially empty) sequance of generators and filters 
+    
+    
+# Left-hand side of generator may also be a pattern :
+
+val data: List[JSON] = ...
+for {
+    JObj(bindings) <- data
+    JSeq(phones) = bindings("phoneNumbers")
+    JObj(phone) <- phones
+    JStr(digits) <- phone("number)
+    if digits startsWith "212
+} yield (bindings("firstName), bindings("lastName))
+    
+pattern contain behind filter :
+
+If pat is a pattern with a single variable x, we translate
+    pat <- expr
+    
+to :
+    x <- expr withFilter {
+        case pat => true
+        case _ => false
+    } map {
+        case pat => x
+    }
+    
+    
+    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+    
+    
+    
+    
+    
+    
+    

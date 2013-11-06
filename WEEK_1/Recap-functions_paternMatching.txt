@@ -1,0 +1,105 @@
+Recap: Fucntions & pattern Matching (19:56)
+
+# Case Blocks
+Q: What's the type of :
+    { case (key, value) => key + ": " + value }
+    
+    Taken by itself, the expression is not typable
+    Utilise dans un contexte donn, elle prend son type
+    
+    exemple :
+        List(("a",5), ("b",6)) map {
+            { case (key, value) => key + ": " + value }
+        }
+        
+        (String, Int) => String
+
+En Scala tout est expression = tout a un type
+    la fonction (String, Int) => String est de type :
+    type JBindings = (String, Int)
+    
+    Function1[JBindings, String]
+
+    Function1 est un trait :
+    trait Function1[-A, +R] {
+        def app(x: A): R
+    }
+
+The pattern matching block
+    { case (key, value) => key + ": " + value }
+    
+    tends le trait Fucntion1 :
+    
+    new Function1[JBindings, String] {
+        def apply(x: Bindings) = x match {
+            case (key, value) => key + ": " + value
+        }
+    }
+
+Le fait que les Function Scala soit des trait est que l'on peut
+sous-classer les type des fonctions
+
+    exemples :
+
+    Map[Key, Value] extends (Key => Value)
+    
+    trait Seq[Elem] extends (Int => Elem)
+
+    c'est pourquoi on peut faire elems(i) pour une squence,
+    car une squence est une fonction
+
+# Partial Functions (subtype of Function)
+
+    val f: String => String = { case "ping" => "pong" }
+    
+    f("ping")           // renvoi "pong"
+    f("toto")           // renvoi scala.match.Error
+    
+On peut dfinir les Partial Functions    
+
+    trait PartialFunction[-A, +R] extends Function1[-A, +R] {
+        def apply(x: A): R
+        def isDefinedAt(x: A): R
+    }
+
+    val f: PartialFucntion[String,String] = { case "ping" => "pong" }
+    f.isDefinedAt("ping")       // true
+    f.isDefinedAt("toto")       // false
+
+si le type attendu est une PartialFunction, le compilo Scala tends :
+
+    { case "ping" => "pong" }
+    
+    en :
+    
+    new PartialFunction{String, String} {
+        def apply(x: String) = x match {
+            case "ping" => "pong"
+        }
+        def isDefinedAt(x: String) = x match {
+            case "ping" => true
+            case _ => false
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

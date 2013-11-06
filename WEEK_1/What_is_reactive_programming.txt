@@ -1,0 +1,53 @@
+What is Reactive Programming ? 11:42
+
+Reactive applications (readily responsive to a stimulus)
+    event-driven (react to events)
+    scalable (react to load)
+    resilient (react to failures)
+    responsive (react to users)
+    
+dessin 1
+
+Event-driven
+    Systems are composed from loosely coupled event handlers
+        events can be handled asynchronously, without blocking
+        
+Scalable
+    scale up : make use of parallelism in multi-core systems
+    scale out : make use of multiple server nodes
+
+    location transparency, resilience for scaling out
+    
+Resilient - recover quickly from failures
+    
+Responsive
+    provides rich, real-time interation with its users under load & present failures
+
+
+Event handling = callback
+    exemple : listenner
+            pb: needs shared mutable state
+                cannot be composed
+                leads quickly to "call-back hell"
+
+How to do better ?
+    Use fundamental constructions from functional programing ...
+    
+    ... to get COMPOSABLE event abstractions
+    
+    => Events are first class
+    => Events are often represented as messages
+    => Handlers of events are also first-class
+    => Complex handlers can be composed from primitive ones
+
+
+
+
+
+
+
+
+
+
+
+

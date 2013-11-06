@@ -1,0 +1,63 @@
+Functional Random Generators (19:42)
+
+Use For-Expr to create random value generators !
+
+trait Generator[+T] {
+    self =>                 // an alias for "this"
+    
+    def generate: T
+
+    def map[S](f: T => S): Generator[S] = new Generator[S] {
+        def generate = f(self.generate)
+    }
+    
+    ...
+}
+
+
+
+Application of that : Random Test generator ! (15:01)
+see ScalaCheck
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
